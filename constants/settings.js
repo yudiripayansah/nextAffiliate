@@ -1,0 +1,35 @@
+export const SETTINGS_COLLECTION = "settings";
+export const SETTINGS_DOC_ID = "site";
+
+export const DEFAULT_SETTINGS = {
+  siteName: "",
+  siteDescription: "",
+  logo: "",
+  favicon: "",
+  theme: "system",
+  contactEmail: "",
+  contactWhatsapp: "",
+  socialLinks: {
+    instagram: "",
+    facebook: "",
+    tiktok: "",
+    youtube: "",
+    telegram: "",
+  },
+  heroTitle: "",
+  heroSubtitle: "",
+  heroBanner: "",
+  featuredProductsLimit: 8,
+  defaultMarketplace: "shopee",
+  openInNewTab: true,
+  redirectDelay: 0,
+  trackingEnabled: true,
+  seoTitle: "",
+  seoDescription: "",
+  ogImage: "",
+  googleAnalyticsId: "",
+  searchConsoleVerification: "",
+  clarityId: "",
+  canonicalDomain: "",
+  footerCopyright: "",
+};

@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Affiliate CMS
+
+Next.js App Router CMS untuk mengelola katalog produk affiliate (Shopee, Tokopedia, TikTok Shop).
+
+Dokumentasi lengkap ada di [`docs/`](./docs) — mulai dari [`docs/README.md`](./docs/README.md) dan [`docs/CLAUDE.md`](./docs/CLAUDE.md) sebelum mengerjakan fitur apapun.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Referensi
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [docs/PROJECT_OVERVIEW.md](./docs/PROJECT_OVERVIEW.md) — tujuan & scope
+- [docs/TECH_STACK.md](./docs/TECH_STACK.md) — stack teknis
+- [docs/FOLDER_STRUCTURE.md](./docs/FOLDER_STRUCTURE.md) — struktur folder wajib
+- [docs/CLAUDE_TASKS.md](./docs/CLAUDE_TASKS.md) — daftar task pengembangan
 
-## Learn More
+## Deployment (Vercel)
 
-To learn more about Next.js, take a look at the following resources:
+1. Push repo ini ke GitHub.
+2. Import project di [vercel.com/new](https://vercel.com/new), pilih repo ini.
+3. Di Vercel Project Settings → Environment Variables, isi semua variable dari `.env.example` (Firebase client config, `FIREBASE_ADMIN_*`, Cloudinary, dll) untuk environment Production **dan** Preview.
+4. Deploy Firestore rules & indexes sekali dari lokal (butuh login `firebase-tools`):
+   ```bash
+   npx firebase-tools deploy --only firestore --project <project-id>
+   ```
+5. Tunggu build Vercel selesai, lalu buat 1 admin pertama secara manual: buat user di Firebase Authentication, lalu tambahkan dokumen di collection `admins` dengan `uid` yang sama berisi `{ email, displayName, role: "admin", active: true }` (tidak ada halaman signup, sesuai desain).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Branch `main` dipakai sebagai production (auto-deploy oleh Vercel setiap push).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Importer (opsional)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Tool CLI terpisah untuk import produk dari Shopee/Tokopedia/TikTok Shop ada di [`importer/`](./importer) — lihat [`importer/README.md`](./importer/README.md). Tool ini **tidak ikut ter-deploy**, hanya dijalankan lokal.

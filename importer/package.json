@@ -1,0 +1,18 @@
+{
+  "name": "affiliate-cms-importer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local CLI tool to import affiliate products (Shopee, Tokopedia, TikTok Shop) into the Affiliate CMS Firestore database. Runs only on the developer's machine, never deployed.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "firebase-admin": "^14.1.0",
+    "inquirer": "^9.3.7",
+    "papaparse": "^5.4.1"
+  }
+}
