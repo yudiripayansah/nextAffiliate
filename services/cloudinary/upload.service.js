@@ -2,7 +2,7 @@ import cloudinary from "@/lib/cloudinary";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 const MAX_SIZE_BYTES = 5 * 1024 * 1024;
-const ALLOWED_FOLDERS = ["products", "categories", "collections", "site"];
+const ALLOWED_FOLDERS = ["products", "categories", "collections", "site", "media"];
 
 function validateImageFile(file) {
   if (!file) return "File tidak ditemukan.";
@@ -41,6 +41,9 @@ export async function uploadImage(file, folder = "site") {
       data: {
         url: result.secure_url,
         publicId: result.public_id,
+        name: result.original_filename || file.name,
+        size: result.bytes,
+        format: result.format,
         width: result.width,
         height: result.height,
       },

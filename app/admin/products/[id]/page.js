@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getProduct } from "@/services/product/product.service";
 import { getCategories } from "@/services/category/category.service";
 import { getCollections } from "@/services/collection/collection.service";
+import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import ProductForm from "@/components/product/ProductForm";
 
 export const metadata = {
@@ -23,7 +24,7 @@ export default async function EditProductPage({ params }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-lg font-semibold">Edit Produk</h1>
+      <AdminPageHeader title="Edit Produk" description={product.title} />
       <ProductForm initialProduct={product} categories={categories} collections={collections} />
     </div>
   );

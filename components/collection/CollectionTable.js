@@ -18,35 +18,40 @@ export default function CollectionTable({ collections, onEdit }) {
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto rounded-xl bg-card ring-1 ring-foreground/10">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Image</TableHead>
-            <TableHead>Name</TableHead>
+            <TableHead className="pl-4">Collection</TableHead>
             <TableHead>Slug</TableHead>
             <TableHead>Featured</TableHead>
-            <TableHead>Published</TableHead>
-            <TableHead>Action</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead className="text-right">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {collections.map((collection) => (
             <TableRow key={collection.id}>
-              <TableCell>
-                {collection.image ? (
-                  <Image
-                    src={collection.image}
-                    alt={collection.name}
-                    width={40}
-                    height={40}
-                    className="rounded-md object-cover"
-                  />
-                ) : (
-                  <div className="size-10 rounded-md bg-muted" />
-                )}
+              <TableCell className="pl-4">
+                <button
+                  type="button"
+                  onClick={() => onEdit(collection)}
+                  className="flex items-center gap-3 text-left hover:text-primary"
+                >
+                  {collection.image ? (
+                    <Image
+                      src={collection.image}
+                      alt={collection.name}
+                      width={40}
+                      height={40}
+                      className="size-10 shrink-0 rounded-md object-cover"
+                    />
+                  ) : (
+                    <div className="size-10 shrink-0 rounded-md bg-muted" />
+                  )}
+                  <span className="font-medium">{collection.name}</span>
+                </button>
               </TableCell>
-              <TableCell className="font-medium">{collection.name}</TableCell>
               <TableCell className="text-muted-foreground">{collection.slug}</TableCell>
               <TableCell>
                 {collection.featured ? <Badge variant="secondary">Featured</Badge> : null}
@@ -57,7 +62,7 @@ export default function CollectionTable({ collections, onEdit }) {
                 </Badge>
               </TableCell>
               <TableCell>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center justify-end gap-1">
                   <Button variant="ghost" size="sm" onClick={() => onEdit(collection)}>
                     Edit
                   </Button>

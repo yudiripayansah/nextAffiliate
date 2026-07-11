@@ -19,17 +19,17 @@ export default function RecentSearchesTable({ searches }) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Keyword</TableHead>
-            <TableHead>Result Count</TableHead>
-            <TableHead>Search Date</TableHead>
+            <TableHead>Kata Kunci</TableHead>
+            <TableHead>Hasil</TableHead>
+            <TableHead>Tanggal</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {searches.map((search) => (
             <TableRow key={search.id}>
-              <TableCell className="font-medium">{search.keyword}</TableCell>
-              <TableCell>{search.resultCount}</TableCell>
-              <TableCell>{formatDate(search.createdAt)}</TableCell>
+              <TableCell className="font-medium">&ldquo;{search.keyword}&rdquo;</TableCell>
+              <TableCell className="font-price">{search.resultCount}</TableCell>
+              <TableCell className="text-muted-foreground">{formatDate(search.createdAt)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

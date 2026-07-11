@@ -2,18 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { X, GripVertical } from "lucide-react";
+import { X, GripVertical, ImagePlus } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-
-async function uploadImage(file) {
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("folder", "products");
-
-  const response = await fetch("/api/upload", { method: "POST", body: formData });
-  return response.json();
-}
+import { Button } from "@/components/ui/button";
+import FilePickerDialog from "@/components/file/FilePickerDialog";
 
 function reorder(images, fromIndex, toIndex) {
   const next = [...images];
@@ -23,29 +15,12 @@ function reorder(images, fromIndex, toIndex) {
 }
 
 export default function ProductImagesField({ images, onChange }) {
-  const [isUploading, setIsUploading] = useState(false);
-  const [error, setError] = useState("");
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [draggedIndex, setDraggedIndex] = useState(null);
 
-  async function handleFilesChange(event) {
-    const files = Array.from(event.target.files ?? []);
-    if (!files.length) return;
-
-    setError("");
-    setIsUploading(true);
-
-    const results = await Promise.all(files.map(uploadImage));
-    const failed = results.find((result) => !result.success);
-
-    if (failed) {
-      setError(failed.message);
-    }
-
-    const uploadedUrls = results.filter((result) => result.success).map((result) => result.data.url);
-    onChange([...images, ...uploadedUrls]);
-
-    setIsUploading(false);
-    event.target.value = "";
+  function handleSelect(files) {
+    const newUrls = files.map((file) => file.url).filter((url) => !images.includes(url));
+    if (newUrls.length) onChange([...images, ...newUrls]);
   }
 
   function handleRemove(index) {
@@ -99,17 +74,15 @@ export default function ProductImagesField({ images, onChange }) {
         </div>
       ) : null}
 
-      <Input
-        id="images"
-        type="file"
-        multiple
-        accept="image/jpeg,image/png,image/webp"
-        onChange={handleFilesChange}
-        disabled={isUploading}
-      />
+      <div>
+        <Button id="images" type="button" variant="outline" size="sm" onClick={() => setPickerOpen(true)}>
+          <ImagePlus className="size-4" aria-hidden="true" />
+          Tambah dari File Manager
+        </Button>
+      </div>
       <p className="text-xs text-muted-foreground">Seret gambar untuk mengubah urutan. Gambar pertama menjadi thumbnail.</p>
-      {isUploading ? <p className="text-sm text-muted-foreground">Mengunggah...</p> : null}
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
+
+      <FilePickerDialog open={pickerOpen} onOpenChange={setPickerOpen} onSelect={handleSelect} multiple />
     </div>
   );
 }

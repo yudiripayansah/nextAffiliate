@@ -18,6 +18,7 @@ import {
 
 export default function DeleteEntityButton({ deleteUrl, entityLabel }) {
   const router = useRouter();
+  const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -25,35 +26,41 @@ export default function DeleteEntityButton({ deleteUrl, entityLabel }) {
     setIsDeleting(true);
     setError("");
 
-    const response = await fetch(deleteUrl, { method: "DELETE" });
-    const result = await response.json();
+    try {
+      const response = await fetch(deleteUrl, { method: "DELETE" });
+      const result = await response.json();
 
-    if (!result.success) {
-      setError(result.message);
+      if (!result.success) {
+        setError(result.message || "Gagal menghapus. Coba lagi.");
+        return;
+      }
+
+      setOpen(false);
+      router.refresh();
+    } catch {
+      setError("Gagal menghapus. Periksa koneksi lalu coba lagi.");
+    } finally {
       setIsDeleting(false);
-      return;
     }
-
-    router.refresh();
   }
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label={`Hapus ${entityLabel}`}>
-          <Trash2 className="size-4" />
-        </Button>
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger
+        render={<Button variant="ghost" size="icon" aria-label={`Hapus ${entityLabel}`} />}
+      >
+        <Trash2 className="size-4" />
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Hapus {entityLabel}?</AlertDialogTitle>
           <AlertDialogDescription>
-            {error || "Tindakan ini tidak dapat dibatalkan."}
+            {error || "Data akan dihapus permanen. Tindakan ini tidak dapat dibatalkan."}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Batal</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={isDeleting}>
+          <AlertDialogCancel disabled={isDeleting}>Batal</AlertDialogCancel>
+          <AlertDialogAction variant="destructive" onClick={handleDelete} disabled={isDeleting}>
             {isDeleting ? "Menghapus..." : "Hapus"}
           </AlertDialogAction>
         </AlertDialogFooter>

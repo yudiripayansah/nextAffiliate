@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import ImageUploadInput from "@/components/common/ImageUploadInput";
 
 export default function SeoSettingsFields({ values, onChange }) {
   return (
@@ -23,14 +24,12 @@ export default function SeoSettingsFields({ values, onChange }) {
         />
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="ogImage">Default OG Image URL</Label>
-        <Input
-          id="ogImage"
-          value={values.ogImage}
-          onChange={(event) => onChange("ogImage", event.target.value)}
-        />
-      </div>
+      <ImageUploadInput
+        id="ogImage"
+        label="Default OG Image"
+        value={values.ogImage}
+        onChange={(url) => onChange("ogImage", url)}
+      />
 
       <div className="flex flex-col gap-2">
         <Label htmlFor="canonicalDomain">Canonical Domain</Label>

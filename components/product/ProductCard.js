@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 import MarketplaceBadge from "@/components/product/MarketplaceBadge";
+import SavingsTicket from "@/components/product/SavingsTicket";
 import { formatPrice } from "@/utils/formatPrice";
 
 export default function ProductCard({ product }) {
   const hasDiscount = product.discountPercentage > 0;
+  const savings = hasDiscount ? product.originalPrice - product.price : 0;
 
   return (
     <Link
@@ -27,11 +29,7 @@ export default function ProductCard({ product }) {
           <MarketplaceBadge marketplace={product.marketplace} />
         </div>
 
-        {hasDiscount ? (
-          <div className="absolute right-2 top-2 rounded-full bg-destructive px-2 py-0.5 text-xs font-semibold text-white shadow-sm">
-            -{product.discountPercentage}%
-          </div>
-        ) : null}
+        <SavingsTicket amount={savings} />
       </div>
 
       <div className="flex flex-1 flex-col gap-1.5 p-3">
@@ -47,9 +45,9 @@ export default function ProductCard({ product }) {
 
         <div className="mt-auto flex flex-col gap-1">
           <div className="flex items-baseline gap-2">
-            <p className="text-base font-bold text-foreground">{formatPrice(product.price)}</p>
+            <p className="font-price text-base font-bold text-foreground">{formatPrice(product.price)}</p>
             {hasDiscount ? (
-              <p className="text-xs text-muted-foreground line-through">
+              <p className="font-price text-xs text-muted-foreground line-through">
                 {formatPrice(product.originalPrice)}
               </p>
             ) : null}
@@ -58,7 +56,7 @@ export default function ProductCard({ product }) {
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             {product.rating ? (
               <span className="flex items-center gap-1">
-                <Star className="size-3.5 fill-amber-400 text-amber-400" />
+                <Star className="size-3.5 fill-trust text-trust" />
                 {product.rating}
               </span>
             ) : (

@@ -11,10 +11,10 @@ export default function MobileNav({ categories, collections, siteName }) {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="Buka menu" className="lg:hidden">
-          <Menu className="size-5" />
-        </Button>
+      <SheetTrigger
+        render={<Button variant="ghost" size="icon" aria-label="Buka menu" className="lg:hidden" />}
+      >
+        <Menu className="size-5" />
       </SheetTrigger>
       <SheetContent side="left" className="w-64 overflow-y-auto p-4">
         <SheetHeader className="p-0">
@@ -22,7 +22,7 @@ export default function MobileNav({ categories, collections, siteName }) {
         </SheetHeader>
         <nav className="mt-4 flex flex-col gap-4">
           <div className="flex flex-col gap-1">
-            <p className="px-3 text-xs font-semibold uppercase text-muted-foreground">Category</p>
+            <p className="px-3 text-xs font-semibold uppercase text-muted-foreground">Kategori</p>
             {categories.map((category) => (
               <Link
                 key={category.id}
@@ -36,7 +36,7 @@ export default function MobileNav({ categories, collections, siteName }) {
           </div>
 
           <div className="flex flex-col gap-1">
-            <p className="px-3 text-xs font-semibold uppercase text-muted-foreground">Collection</p>
+            <p className="px-3 text-xs font-semibold uppercase text-muted-foreground">Koleksi</p>
             {collections.map((collection) => (
               <Link
                 key={collection.id}
@@ -50,7 +50,7 @@ export default function MobileNav({ categories, collections, siteName }) {
           </div>
 
           <Link href="/about" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 text-sm hover:bg-muted">
-            About
+            Tentang
           </Link>
         </nav>
       </SheetContent>

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getCategory } from "@/services/category/category.service";
+import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import CategoryForm from "@/components/category/CategoryForm";
 
 export const metadata = {
@@ -17,7 +18,7 @@ export default async function EditCategoryPage({ params }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-lg font-semibold">Edit Category</h1>
+      <AdminPageHeader title="Edit Category" description={category.name} />
       <CategoryForm initialCategory={category} />
     </div>
   );

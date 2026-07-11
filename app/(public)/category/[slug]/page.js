@@ -9,6 +9,7 @@ import ProductSortSelect from "@/components/product/ProductSortSelect";
 import PaginationControls from "@/components/common/PaginationControls";
 import JsonLd from "@/components/common/JsonLd";
 import { buildCollectionPageSchema, buildBreadcrumbSchema } from "@/utils/jsonLd";
+import { renderCategoryIcon } from "@/utils/categoryIcon";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -61,11 +62,15 @@ export default async function CategoryPage({ params, searchParams }) {
           <Image
             src={category.image}
             alt={category.name}
-            width={80}
-            height={80}
-            className="rounded-xl object-cover"
+            width={64}
+            height={64}
+            className="rounded-full object-cover"
           />
-        ) : null}
+        ) : (
+          <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-muted">
+            {renderCategoryIcon(category, 32)}
+          </span>
+        )}
         <div>
           <h1 className="text-2xl font-semibold">{category.name}</h1>
           {category.description ? (

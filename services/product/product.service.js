@@ -292,6 +292,11 @@ export async function archiveProduct(id, adminUid) {
   return { success: true, message: "Product berhasil diarsipkan." };
 }
 
+export async function deleteProduct(id) {
+  await productsRef().doc(id).delete();
+  return { success: true, message: "Product berhasil dihapus." };
+}
+
 export async function duplicateProduct(id, adminUid) {
   const original = await getProduct(id);
   if (!original) {

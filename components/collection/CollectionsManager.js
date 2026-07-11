@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import CollectionTable from "@/components/collection/CollectionTable";
 import CollectionForm from "@/components/collection/CollectionForm";
 
@@ -27,10 +29,12 @@ export default function CollectionsManager({ collections }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">Collections</h1>
-        <Button onClick={openAddDialog}>Tambah Collection</Button>
-      </div>
+      <AdminPageHeader title="Collections" description="Kurasi produk pilihan dalam satu koleksi.">
+        <Button onClick={openAddDialog}>
+          <Plus className="size-4" aria-hidden="true" />
+          Tambah Collection
+        </Button>
+      </AdminPageHeader>
 
       <CollectionTable collections={collections} onEdit={openEditDialog} />
 

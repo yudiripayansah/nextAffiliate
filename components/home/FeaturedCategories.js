@@ -1,7 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Tag } from "lucide-react";
 import EmptyState from "@/components/common/EmptyState";
+import { renderCategoryIcon } from "@/utils/categoryIcon";
 
 export default function FeaturedCategories({ categories }) {
   if (!categories.length) {
@@ -9,30 +8,17 @@ export default function FeaturedCategories({ categories }) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+    <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
       {categories.map((category) => (
         <Link
           key={category.id}
           href={`/category/${category.slug}`}
-          className="group overflow-hidden rounded-xl border bg-card transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+          className="group flex flex-col items-center gap-2 rounded-xl p-3 text-center transition-colors hover:bg-accent"
         >
-          <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden bg-accent">
-            {category.image ? (
-              <Image
-                src={category.image}
-                alt={category.name}
-                fill
-                sizes="(max-width: 640px) 50vw, 25vw"
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            ) : (
-              <Tag className="size-8 text-primary/50" aria-hidden="true" />
-            )}
-          </div>
-          <div className="p-3 text-center">
-            <p className="text-sm font-semibold text-foreground group-hover:text-primary">{category.name}</p>
-            <p className="text-xs text-muted-foreground">{category.productCount} produk</p>
-          </div>
+          <span className="flex size-14 shrink-0 items-center justify-center rounded-full bg-muted transition-transform duration-200 group-hover:scale-105">
+            {renderCategoryIcon(category, 28)}
+          </span>
+          <span className="text-xs font-medium text-foreground">{category.name}</span>
         </Link>
       ))}
     </div>

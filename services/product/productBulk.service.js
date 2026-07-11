@@ -37,6 +37,11 @@ export async function bulkChangeCategory(ids, categoryId, adminUid) {
   return { success: true, message: `Category ${ids.length} produk berhasil diubah.` };
 }
 
+export async function bulkDeleteProducts(ids) {
+  await Promise.all(ids.map((id) => productsRef().doc(id).delete()));
+  return { success: true, message: `${ids.length} produk berhasil dihapus.` };
+}
+
 export async function bulkAddToCollection(ids, collectionId, adminUid) {
   await Promise.all(
     ids.map((id) =>

@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { PackageCheck, MousePointerClick, TrendingUp, FileClock } from "lucide-react";
 import {
   getProductStats,
   getMarketplaceStats,
@@ -7,18 +9,35 @@ import {
 import { getCategoryCount } from "@/services/category/category.service";
 import { getCollectionCount } from "@/services/collection/collection.service";
 import { getClickStats, getRecentSearches } from "@/services/analytics/analytics.service";
+import GreetingHeader from "@/components/admin/GreetingHeader";
 import StatCard from "@/components/admin/StatCard";
-import MarketplaceStats from "@/components/admin/MarketplaceStats";
+import CatalogStatusCard from "@/components/admin/CatalogStatusCard";
+import MarketplaceShareList from "@/components/admin/MarketplaceShareList";
+import QuickActions from "@/components/admin/QuickActions";
 import RecentProductsTable from "@/components/admin/RecentProductsTable";
 import PopularProductsTable from "@/components/admin/PopularProductsTable";
 import RecentSearchesTable from "@/components/admin/RecentSearchesTable";
-import QuickActions from "@/components/admin/QuickActions";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export const metadata = {
   title: "Dashboard",
   robots: { index: false, follow: false },
 };
+
+function CardLink({ href, children }) {
+  return (
+    <Link href={href} className="text-sm font-medium text-primary underline-offset-4 hover:underline">
+      {children}
+    </Link>
+  );
+}
 
 export default async function AdminDashboardPage() {
   const [productStats, marketplaceStats, categoryCount, collectionCount, clickStats, recentProducts, popularProducts, recentSearches] =
@@ -34,52 +53,113 @@ export default async function AdminDashboardPage() {
     ]);
 
   const statCards = [
-    { label: "Total Products", value: productStats.total },
-    { label: "Published Products", value: productStats.published },
-    { label: "Draft Products", value: productStats.draft },
-    { label: "Archived Products", value: productStats.archived },
-    { label: "Categories", value: categoryCount },
-    { label: "Collections", value: collectionCount },
-    { label: "Today's Click", value: clickStats.today },
-    { label: "Total Click", value: clickStats.total },
+    {
+      label: "Produk Live",
+      value: productStats.published,
+      icon: PackageCheck,
+      tone: "trust",
+      hint: `dari ${productStats.total} produk`,
+      href: "/admin/products?status=published",
+    },
+    {
+      label: "Klik Hari Ini",
+      value: clickStats.today,
+      icon: MousePointerClick,
+      tone: "primary",
+      hint: "menuju marketplace",
+      href: "/admin/analytics",
+    },
+    {
+      label: "Total Klik",
+      value: clickStats.total,
+      icon: TrendingUp,
+      tone: "default",
+      hint: "sepanjang waktu",
+      href: "/admin/analytics",
+    },
+    {
+      label: "Draft",
+      value: productStats.draft,
+      icon: FileClock,
+      tone: "amber",
+      hint: "menunggu dipublish",
+      href: "/admin/products?status=draft",
+    },
   ];
 
   return (
     <div className="flex flex-col gap-6">
-      <QuickActions />
+      <GreetingHeader
+        description={`${productStats.published} produk live dan ${clickStats.today} klik hari ini. Lanjutkan!`}
+      />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {statCards.map((card) => (
-          <StatCard key={card.label} label={card.label} value={card.value} />
+          <StatCard key={card.label} {...card} />
         ))}
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent Products</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <RecentProductsTable products={recentProducts} />
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <CatalogStatusCard
+          productStats={productStats}
+          categoryCount={categoryCount}
+          collectionCount={collectionCount}
+        />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Popular Products</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <PopularProductsTable products={popularProducts} />
-        </CardContent>
-      </Card>
+        <Card className="h-full">
+          <CardHeader>
+            <CardTitle>Marketplace</CardTitle>
+            <CardDescription>Sebaran produk per marketplace</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <MarketplaceShareList
+              items={marketplaceStats.map(({ marketplace, label, total }) => ({
+                marketplace,
+                label,
+                value: total,
+              }))}
+            />
+          </CardContent>
+        </Card>
 
-      <div>
-        <h2 className="mb-4 text-lg font-semibold">Marketplace Statistics</h2>
-        <MarketplaceStats stats={marketplaceStats} />
+        <QuickActions />
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Produk Terbaru</CardTitle>
+            <CardDescription>5 update terakhir di katalog</CardDescription>
+            <CardAction>
+              <CardLink href="/admin/products">Lihat semua</CardLink>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            <RecentProductsTable products={recentProducts} />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Produk Terpopuler</CardTitle>
+            <CardDescription>Paling banyak diklik</CardDescription>
+            <CardAction>
+              <CardLink href="/admin/analytics">Detail</CardLink>
+            </CardAction>
+          </CardHeader>
+          <CardContent>
+            <PopularProductsTable products={popularProducts} />
+          </CardContent>
+        </Card>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Recent Searches</CardTitle>
+          <CardTitle>Pencarian Terbaru</CardTitle>
+          <CardDescription>Apa yang dicari pengunjung</CardDescription>
+          <CardAction>
+            <CardLink href="/admin/analytics">Semua pencarian</CardLink>
+          </CardAction>
         </CardHeader>
         <CardContent>
           <RecentSearchesTable searches={recentSearches} />

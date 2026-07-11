@@ -3,6 +3,7 @@ import {
   bulkUpdateStatus,
   bulkChangeCategory,
   bulkAddToCollection,
+  bulkDeleteProducts,
 } from "@/services/product/productBulk.service";
 import { PRODUCT_STATUS } from "@/constants/product";
 import { getCurrentAdmin } from "@/services/auth/authSession";
@@ -36,6 +37,9 @@ export async function POST(request) {
         break;
       case "archive":
         result = await bulkUpdateStatus(ids, PRODUCT_STATUS.ARCHIVED, admin.uid);
+        break;
+      case "delete":
+        result = await bulkDeleteProducts(ids);
         break;
       case "changeCategory":
         result = await bulkChangeCategory(ids, categoryId, admin.uid);

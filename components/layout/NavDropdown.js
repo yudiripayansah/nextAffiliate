@@ -20,8 +20,8 @@ export default function NavDropdown({ label, items, basePath }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         {items.map((item) => (
-          <DropdownMenuItem key={item.id} asChild>
-            <Link href={`${basePath}/${item.slug}`}>{item.name}</Link>
+          <DropdownMenuItem key={item.id} render={<Link href={`${basePath}/${item.slug}`} />}>
+            {item.name}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

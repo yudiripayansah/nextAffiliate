@@ -20,16 +20,17 @@ export default async function Navbar() {
       <Container className="flex h-16 items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <MobileNav categories={categories} collections={collections} siteName={settings.siteName} />
-          <Link href="/" className="text-lg font-semibold">
+          <Link href="/" className="flex items-center gap-1.5 font-display text-lg font-bold text-foreground">
+            <span className="text-primary">•</span>
             {settings.siteName || "Affiliate CMS"}
           </Link>
         </div>
 
         <nav className="hidden items-center gap-6 lg:flex">
-          <NavDropdown label="Category" items={categories} basePath="/category" />
-          <NavDropdown label="Collection" items={collections} basePath="/collection" />
+          <NavDropdown label="Kategori" items={categories} basePath="/category" />
+          <NavDropdown label="Koleksi" items={collections} basePath="/collection" />
           <Link href="/about" className="text-sm font-medium hover:text-primary">
-            About
+            Tentang
           </Link>
         </nav>
 

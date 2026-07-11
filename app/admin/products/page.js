@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { Plus } from "lucide-react";
 import { getProducts } from "@/services/product/product.service";
 import { getCategories } from "@/services/category/category.service";
 import { Button } from "@/components/ui/button";
+import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import ProductsManager from "@/components/product/ProductsManager";
 import AdminSearchInput from "@/components/admin/AdminSearchInput";
 import ProductFiltersBar from "@/components/product/ProductFiltersBar";
@@ -34,12 +36,12 @@ export default async function AdminProductsPage({ searchParams }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between gap-4">
-        <h1 className="text-lg font-semibold">Products</h1>
-        <Button asChild>
-          <Link href="/admin/products/new">Tambah Produk</Link>
+      <AdminPageHeader title="Products" description="Kelola katalog produk affiliate.">
+        <Button render={<Link href="/admin/products/new" />} nativeButton={false}>
+          <Plus className="size-4" aria-hidden="true" />
+          Tambah Produk
         </Button>
-      </div>
+      </AdminPageHeader>
 
       <div className="flex flex-wrap items-center justify-between gap-2">
         <AdminSearchInput placeholder="Cari title, brand, tag..." />

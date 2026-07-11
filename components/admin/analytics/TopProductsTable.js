@@ -7,6 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import MarketplaceBadge from "@/components/product/MarketplaceBadge";
+import RankBadge from "@/components/admin/RankBadge";
 import EmptyState from "@/components/common/EmptyState";
 
 export default function TopProductsTable({ products }) {
@@ -19,19 +20,23 @@ export default function TopProductsTable({ products }) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Product</TableHead>
+            <TableHead className="w-10">#</TableHead>
+            <TableHead>Produk</TableHead>
             <TableHead>Marketplace</TableHead>
-            <TableHead>Click</TableHead>
+            <TableHead className="text-right">Klik</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {products.map((product) => (
+          {products.map((product, index) => (
             <TableRow key={product.id}>
-              <TableCell className="font-medium">{product.title}</TableCell>
+              <TableCell>
+                <RankBadge rank={index + 1} />
+              </TableCell>
+              <TableCell className="max-w-[280px] truncate font-medium">{product.title}</TableCell>
               <TableCell>
                 <MarketplaceBadge marketplace={product.marketplace} />
               </TableCell>
-              <TableCell>{product.rangeClicks}</TableCell>
+              <TableCell className="text-right font-price font-bold">{product.rangeClicks}</TableCell>
             </TableRow>
           ))}
         </TableBody>

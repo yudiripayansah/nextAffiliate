@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ImageUploadInput from "@/components/common/ImageUploadInput";
 
 export default function GeneralSettingsFields({ values, onChange }) {
   return (
@@ -31,23 +32,19 @@ export default function GeneralSettingsFields({ values, onChange }) {
         />
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="logo">Logo URL</Label>
-        <Input
-          id="logo"
-          value={values.logo}
-          onChange={(event) => onChange("logo", event.target.value)}
-        />
-      </div>
+      <ImageUploadInput
+        id="logo"
+        label="Logo"
+        value={values.logo}
+        onChange={(url) => onChange("logo", url)}
+      />
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="favicon">Favicon URL</Label>
-        <Input
-          id="favicon"
-          value={values.favicon}
-          onChange={(event) => onChange("favicon", event.target.value)}
-        />
-      </div>
+      <ImageUploadInput
+        id="favicon"
+        label="Favicon"
+        value={values.favicon}
+        onChange={(url) => onChange("favicon", url)}
+      />
 
       <div className="flex flex-col gap-2">
         <Label htmlFor="theme">Theme</Label>

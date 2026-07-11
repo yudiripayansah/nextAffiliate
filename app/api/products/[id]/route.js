@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import {
   getProduct,
   updateProduct,
-  archiveProduct,
+  deleteProduct,
 } from "@/services/product/product.service";
 import { getCurrentAdmin } from "@/services/auth/authSession";
 
@@ -56,10 +56,10 @@ export async function PUT(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
-  const { admin, unauthorized } = await requireAdmin();
+  const { unauthorized } = await requireAdmin();
   if (unauthorized) return unauthorized;
 
   const { id } = await params;
-  const result = await archiveProduct(id, admin.uid);
+  const result = await deleteProduct(id);
   return NextResponse.json(result, { status: result.success ? 200 : 422 });
 }

@@ -15,7 +15,13 @@ import { formatDate } from "@/utils/date";
 
 export default function RecentProductsTable({ products }) {
   if (!products.length) {
-    return <EmptyState message="Belum ada produk." />;
+    return (
+      <EmptyState
+        message="Rak masih kosong. Tambah produk pertamamu!"
+        actionLabel="Tambah Produk"
+        actionHref="/admin/products/new"
+      />
+    );
   }
 
   return (
@@ -23,42 +29,41 @@ export default function RecentProductsTable({ products }) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Thumbnail</TableHead>
-            <TableHead>Title</TableHead>
+            <TableHead>Produk</TableHead>
             <TableHead>Marketplace</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead>Updated At</TableHead>
-            <TableHead>Action</TableHead>
+            <TableHead>Diupdate</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {products.map((product) => (
-            <TableRow key={product.id}>
+            <TableRow key={product.id} className="group">
               <TableCell>
-                {product.thumbnail ? (
-                  <Image
-                    src={product.thumbnail}
-                    alt={product.title}
-                    width={40}
-                    height={40}
-                    className="rounded-md object-cover"
-                  />
-                ) : (
-                  <div className="size-10 rounded-md bg-muted" />
-                )}
+                <Link href={`/admin/products/${product.id}`} className="flex items-center gap-3">
+                  {product.thumbnail ? (
+                    <Image
+                      src={product.thumbnail}
+                      alt={product.title}
+                      width={36}
+                      height={36}
+                      className="size-9 shrink-0 rounded-md object-cover"
+                    />
+                  ) : (
+                    <div className="size-9 shrink-0 rounded-md bg-muted" />
+                  )}
+                  <span className="max-w-[220px] truncate font-medium group-hover:text-primary">
+                    {product.title}
+                  </span>
+                </Link>
               </TableCell>
-              <TableCell className="font-medium">{product.title}</TableCell>
               <TableCell>
                 <MarketplaceBadge marketplace={product.marketplace} />
               </TableCell>
               <TableCell>
                 <ProductStatusBadge status={product.status} />
               </TableCell>
-              <TableCell>{formatDate(product.updatedAt)}</TableCell>
-              <TableCell>
-                <Link href={`/admin/products/${product.id}`} className="text-sm text-primary underline-offset-4 hover:underline">
-                  Edit
-                </Link>
+              <TableCell className="whitespace-nowrap text-muted-foreground">
+                {formatDate(product.updatedAt)}
               </TableCell>
             </TableRow>
           ))}

@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import ImageUploadInput from "@/components/common/ImageUploadInput";
 
 export default function HomepageSettingsFields({ values, onChange }) {
   return (
@@ -22,14 +23,12 @@ export default function HomepageSettingsFields({ values, onChange }) {
         />
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="heroBanner">Hero Banner URL</Label>
-        <Input
-          id="heroBanner"
-          value={values.heroBanner}
-          onChange={(event) => onChange("heroBanner", event.target.value)}
-        />
-      </div>
+      <ImageUploadInput
+        id="heroBanner"
+        label="Hero Banner"
+        value={values.heroBanner}
+        onChange={(url) => onChange("heroBanner", url)}
+      />
 
       <div className="flex flex-col gap-2">
         <Label htmlFor="featuredProductsLimit">Featured Products Limit</Label>

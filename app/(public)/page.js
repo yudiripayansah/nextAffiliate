@@ -1,7 +1,7 @@
 import { getSettings } from "@/services/settings/settings.service";
 import { getCategoriesWithProductCount } from "@/services/category/category.service";
 import { getCollections } from "@/services/collection/collection.service";
-import { getProducts } from "@/services/product/product.service";
+import { getProducts, getProductStats } from "@/services/product/product.service";
 import HeroSection from "@/components/home/HeroSection";
 import FeaturedCategories from "@/components/home/FeaturedCategories";
 import FeaturedCollections from "@/components/home/FeaturedCollections";
@@ -32,8 +32,9 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
-  const [settings, categories, collections, trending, newest, popular] = await Promise.all([
+  const [settings, stats, categories, collections, trending, newest, popular] = await Promise.all([
     getSettings(),
+    getProductStats(),
     getCategoriesWithProductCount(8),
     getCollections(true),
     getProducts({ status: "published", sort: "click", limitCount: 8 }),
@@ -48,7 +49,11 @@ export default async function HomePage() {
       <JsonLd data={buildOrganizationSchema(settings)} />
       <JsonLd data={buildWebsiteSchema(settings)} />
 
-      <HeroSection settings={settings} />
+      <HeroSection
+        settings={settings}
+        stats={{ productCount: stats.published }}
+        featuredProducts={newest.products}
+      />
 
       {categories.length ? (
         <Section title="Kategori Pilihan" subtitle="Jelajahi produk berdasarkan kategori favoritmu">

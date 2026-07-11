@@ -1,5 +1,6 @@
 import { getCategories } from "@/services/category/category.service";
 import { getCollections } from "@/services/collection/collection.service";
+import AdminPageHeader from "@/components/admin/AdminPageHeader";
 import ProductForm from "@/components/product/ProductForm";
 
 export const metadata = {
@@ -12,7 +13,7 @@ export default async function NewProductPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-lg font-semibold">Tambah Produk</h1>
+      <AdminPageHeader title="Tambah Produk" description="Produk baru untuk katalog affiliate." />
       <ProductForm categories={categories} collections={collections} />
     </div>
   );

@@ -19,16 +19,16 @@ export default function EntityAnalyticsTable({ entityLabel, items }) {
         <TableHeader>
           <TableRow>
             <TableHead>{entityLabel}</TableHead>
-            <TableHead>Product Count</TableHead>
-            <TableHead>Click Count</TableHead>
+            <TableHead className="text-right">Produk</TableHead>
+            <TableHead className="text-right">Klik</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {items.map((item) => (
             <TableRow key={item.id}>
               <TableCell className="font-medium">{item.name}</TableCell>
-              <TableCell>{item.productCount}</TableCell>
-              <TableCell>{item.totalClicks}</TableCell>
+              <TableCell className="text-right font-price">{item.productCount}</TableCell>
+              <TableCell className="text-right font-price font-bold">{item.totalClicks}</TableCell>
             </TableRow>
           ))}
         </TableBody>
