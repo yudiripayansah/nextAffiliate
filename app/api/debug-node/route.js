@@ -11,11 +11,11 @@ export async function GET() {
   };
 
   try {
-    const req = createRequire(process.cwd() + "/package.json");
+    const req = createRequire(process.cwd() + "/node_modules/jwks-rsa/package.json");
     const jose = req("jose");
-    info.requireJose = "ok: " + typeof jose.SignJWT;
+    info.requireJoseAsJwksRsa = "ok: importJWK=" + typeof jose.importJWK;
   } catch (error) {
-    info.requireJose = `fail [${error.code}]: ${String(error.message).slice(0, 200)}`;
+    info.requireJoseAsJwksRsa = `fail [${error.code}]: ${String(error.message).slice(0, 200)}`;
   }
 
   return Response.json(info);

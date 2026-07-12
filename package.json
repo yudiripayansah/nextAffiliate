@@ -5,6 +5,11 @@
   "engines": {
     "node": ">=22.12"
   },
+  "overrides": {
+    "jwks-rsa": {
+      "jose": "^5"
+    }
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
