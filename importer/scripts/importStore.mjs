@@ -1,18 +1,18 @@
 /**
- * Import produk dari daftar URL Tokopedia, dengan rehost gambar:
- * setiap gambar di-download Cloudinary (folder affiliate-cms/media)
+ * Import produk dari data hasil ekstraksi browser (p*.json), dengan rehost gambar:
+ * setiap gambar di-upload ke Cloudinary (folder affiliate-cms/media)
  * dan didaftarkan ke koleksi `files` supaya muncul di File Manager.
  *
  * Jalankan dari root repo (butuh CLOUDINARY_* dan FIREBASE_ADMIN_* di env):
- *   node --env-file=.env.local importer/scripts/importStore.mjs <urls.json> [--dry] [--limit N]
+ *   node --env-file=.env.local importer/scripts/importStore.mjs <dataDir> [--dry] [--limit N]
  */
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import { createRequire } from "node:module";
 import { FieldValue } from "firebase-admin/firestore";
-import { parseProduct } from "../src/importCore.js";
 import { findProductByOriginalUrl, insertProduct } from "../src/services/productService.js";
 import { getDb } from "../src/services/firebaseAdmin.js";
-import { slugify } from "../src/utils/normalize.js";
+import { slugify, parsePrice, generateSeoTitle, generateSeoDescription, generateTags } from "../src/utils/normalize.js";
 
 const requireFromRoot = createRequire(new URL("../../package.json", import.meta.url));
 const { v2: cloudinary } = requireFromRoot("cloudinary");
@@ -98,49 +98,76 @@ async function rehostImages(imageUrls, baseName) {
   return rehosted;
 }
 
+function buildProduct(raw) {
+  if (!raw.title) throw new Error("Data tidak punya title.");
+
+  const price = parsePrice(raw.priceText);
+  if (!price) throw new Error(`Harga tidak terbaca: "${raw.priceText}"`);
+
+  const soldMatch = (raw.sold ?? "").match(/\d+/);
+
+  return {
+    title: raw.title,
+    shortDescription: (raw.description ?? "").slice(0, 160),
+    description: raw.description ?? "",
+    price,
+    originalPrice: parsePrice(raw.originalPriceText) || null,
+    images: raw.images ?? [],
+    brand: "",
+    rating: Number(String(raw.rating ?? "").replace(",", ".")) || 0,
+    sold: soldMatch ? Number(soldMatch[0]) : 0,
+    affiliateUrl: raw.url,
+    originalUrl: raw.url,
+    marketplace: "tokopedia",
+    seoTitle: generateSeoTitle(raw.title),
+    seoDescription: generateSeoDescription(raw.title, raw.description),
+    tags: generateTags(raw.title),
+  };
+}
+
 async function run() {
   const args = process.argv.slice(2);
-  const urlsFile = args.find((arg) => !arg.startsWith("--"));
+  const dataDir = args.find((arg) => !arg.startsWith("--"));
   const isDry = args.includes("--dry");
   const limitArg = args.indexOf("--limit");
   const limit = limitArg !== -1 ? Number(args[limitArg + 1]) : Infinity;
 
-  if (!urlsFile) {
-    console.error("Usage: node importStore.mjs <urls.json> [--dry] [--limit N]");
+  if (!dataDir) {
+    console.error("Usage: node importStore.mjs <dataDir> [--dry] [--limit N]");
     process.exit(1);
   }
 
-  const urls = JSON.parse(readFileSync(urlsFile, "utf8")).slice(0, limit);
-  console.log(`${urls.length} URL akan diproses${isDry ? " (dry run — tidak menyimpan)" : ""}.\n`);
+  const items = readdirSync(dataDir)
+    .filter((name) => name.endsWith(".json"))
+    .sort()
+    .slice(0, limit)
+    .map((name) => JSON.parse(readFileSync(join(dataDir, name), "utf8")));
+
+  console.log(`${items.length} produk akan diproses${isDry ? " (dry run — tidak menyimpan)" : ""}.\n`);
 
   const category = isDry ? null : await ensureCategory();
   if (category) console.log(`Kategori: ${category.name} (${category.id})\n`);
 
   const summary = { success: 0, skipped: 0, failed: 0 };
 
-  for (let index = 0; index < urls.length; index++) {
-    const url = urls[index];
-    const label = `[${index + 1}/${urls.length}]`;
+  for (let index = 0; index < items.length; index++) {
+    const raw = items[index];
+    const label = `[${index + 1}/${items.length}]`;
 
     try {
-      const existing = await findProductByOriginalUrl(url);
+      const product = buildProduct(raw);
+
+      const existing = await findProductByOriginalUrl(product.originalUrl);
       if (existing) {
-        console.log(`${label} SKIP (sudah ada): ${url}`);
+        console.log(`${label} SKIP (sudah ada): ${product.originalUrl}`);
         summary.skipped += 1;
         continue;
       }
 
-      const product = await parseProduct(url);
       const uniqueImages = [...new Set(product.images)].slice(0, MAX_IMAGES_PER_PRODUCT);
 
       if (isDry) {
-        console.log(`${label} DRY:`, JSON.stringify({
-          title: product.title,
-          price: product.price,
-          brand: product.brand,
-          rating: product.rating,
-          images: uniqueImages,
-        }, null, 2));
+        console.log(`${label} DRY: ${product.title} | Rp ${product.price.toLocaleString("id-ID")} | ${uniqueImages.length} gambar`);
         continue;
       }
 
@@ -156,7 +183,7 @@ async function run() {
       console.log(`${label} OK  Rp ${product.price.toLocaleString("id-ID")}  ${rehostedImages.length} gambar  ${product.title.slice(0, 60)}  (${productId})`);
       summary.success += 1;
     } catch (error) {
-      console.error(`${label} GAGAL: ${url}\n      ${error.message}`);
+      console.error(`${label} GAGAL: ${raw.url ?? "?"}\n      ${error.message}`);
       summary.failed += 1;
     }
 
