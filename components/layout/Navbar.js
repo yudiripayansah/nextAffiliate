@@ -3,6 +3,8 @@ import { getCategories } from "@/services/category/category.service";
 import { getCollections } from "@/services/collection/collection.service";
 import { getSettings } from "@/services/settings/settings.service";
 import Container from "@/components/layout/Container";
+import TopBar from "@/components/layout/TopBar";
+import CategoryMenu from "@/components/layout/CategoryMenu";
 import NavDropdown from "@/components/layout/NavDropdown";
 import MobileNav from "@/components/layout/MobileNav";
 import SearchBox from "@/components/search/SearchBox";
@@ -14,31 +16,54 @@ export default async function Navbar() {
     getCollections(true),
     getSettings(),
   ]);
+  const siteName = settings.siteName || "Affiliate CMS";
 
   return (
-    <header className="sticky top-0 z-40 border-b bg-background">
-      <Container className="flex h-16 items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <MobileNav categories={categories} collections={collections} siteName={settings.siteName} />
-          <Link href="/" className="flex items-center gap-1.5 font-display text-lg font-bold text-foreground">
-            <span className="text-primary">•</span>
-            {settings.siteName || "Affiliate CMS"}
-          </Link>
-        </div>
+    <header className="sticky top-0 z-40 shadow-sm">
+      <TopBar />
 
-        <nav className="hidden items-center gap-6 lg:flex">
-          <NavDropdown label="Kategori" items={categories} basePath="/category" />
-          <NavDropdown label="Koleksi" items={collections} basePath="/collection" />
-          <Link href="/about" className="text-sm font-medium hover:text-primary">
-            Tentang
-          </Link>
-        </nav>
+      <div className="bg-brand text-brand-foreground">
+        <Container className="flex h-14 items-center gap-3 lg:h-[72px] lg:gap-8">
+          <div className="flex min-w-0 items-center gap-1">
+            <MobileNav categories={categories} collections={collections} siteName={siteName} />
+            <Link
+              href="/"
+              className="flex items-center gap-1 truncate font-display text-lg font-bold lg:text-2xl"
+            >
+              <span aria-hidden="true">✦</span>
+              {siteName}
+            </Link>
+          </div>
 
-        <div className="flex items-center gap-2">
-          <SearchBox className="hidden w-64 sm:block" />
-          <ThemeToggle />
-        </div>
-      </Container>
+          <SearchBox className="mx-auto hidden w-full max-w-2xl flex-1 lg:block" />
+
+          <div className="ml-auto flex shrink-0 items-center lg:ml-0">
+            <ThemeToggle />
+          </div>
+        </Container>
+
+        <Container className="pb-3 lg:hidden">
+          <SearchBox />
+        </Container>
+      </div>
+
+      <div className="hidden border-b bg-background lg:block">
+        <Container className="flex h-12 items-center gap-6">
+          <CategoryMenu categories={categories} />
+          <nav className="flex items-center gap-6 text-sm font-semibold">
+            <NavDropdown label="Koleksi" items={collections} basePath="/collection" />
+            <Link href="/#trending" className="transition-colors hover:text-primary">
+              Lagi Trending
+            </Link>
+            <Link href="/#terbaru" className="transition-colors hover:text-primary">
+              Terbaru
+            </Link>
+            <Link href="/about" className="transition-colors hover:text-primary">
+              Tentang
+            </Link>
+          </nav>
+        </Container>
+      </div>
     </header>
   );
 }
