@@ -57,7 +57,7 @@ export default async function CategoryPage({ params, searchParams }) {
 
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+      <div className="flex flex-col gap-4 rounded-3xl bg-brand/25 p-6 sm:flex-row sm:items-center dark:bg-card">
         {category.image ? (
           <Image
             src={category.image}
@@ -67,12 +67,12 @@ export default async function CategoryPage({ params, searchParams }) {
             className="rounded-full object-cover"
           />
         ) : (
-          <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-muted">
+          <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-card dark:bg-secondary">
             {renderCategoryIcon(category, 32)}
           </span>
         )}
         <div>
-          <h1 className="text-2xl font-semibold">{category.name}</h1>
+          <h1 className="font-display text-2xl font-bold">{category.name}</h1>
           {category.description ? (
             <p className="mt-1 text-sm text-muted-foreground">{category.description}</p>
           ) : null}

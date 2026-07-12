@@ -33,12 +33,24 @@ export default function PaginationControls({ hasMore, lastId }) {
   }
 
   return (
-    <div className="flex items-center justify-end gap-2">
-      <Button variant="outline" size="sm" onClick={handlePrevious} disabled={!afterStack.length}>
-        Previous
+    <div className="flex items-center justify-center gap-2">
+      <Button
+        variant="outline"
+        size="sm"
+        className="rounded-full px-5 font-bold"
+        onClick={handlePrevious}
+        disabled={!afterStack.length}
+      >
+        Sebelumnya
       </Button>
-      <Button variant="outline" size="sm" onClick={handleNext} disabled={!hasMore}>
-        Next
+      <Button
+        variant="outline"
+        size="sm"
+        className="rounded-full px-5 font-bold"
+        onClick={handleNext}
+        disabled={!hasMore}
+      >
+        Berikutnya
       </Button>
     </div>
   );
