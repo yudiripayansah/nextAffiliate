@@ -1,24 +1,17 @@
 import Script from "next/script";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Nunito, Baloo_2 } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const nunito = Nunito({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
 
-const spaceGrotesk = Space_Grotesk({
+const baloo = Baloo_2({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["500", "700"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-price",
-  subsets: ["latin"],
-  weight: ["500", "700"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
@@ -45,7 +38,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="id"
-      className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${nunito.variable} ${baloo.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

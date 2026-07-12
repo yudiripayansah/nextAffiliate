@@ -9,7 +9,11 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-display), var(--font-inter), ui-sans-serif, sans-serif;
-  --font-price: var(--font-price), ui-monospace, monospace;
+  --font-price: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-sale: var(--sale);
+  --color-sale-foreground: var(--sale-foreground);
   --font-mono: var(--font-price), ui-monospace, monospace;
   --font-heading: var(--font-display);
   --color-trust: var(--trust);
@@ -53,85 +57,89 @@
 }
 
 /*
-  Brand: warm "receipt paper" surface with a vivid sale-sticker red-orange
-  as the primary action color, and a deep verified-savings green as the
-  secondary accent. Chosen because the product is a deals/price-comparison
-  catalog — the palette borrows from shopping receipts and price tags
-  rather than a generic SaaS gradient.
+  Brand: playful marketplace ala Martfury Kids — kuning ceria sebagai warna
+  brand (band header, badge, aksen), navy pekat untuk teks & aksi, dan
+  merah-pink khusus harga diskon. Dark mode = navy gelap, kuning jadi primary.
 */
 :root {
-  --background: oklch(0.97 0.015 85);
-  --foreground: oklch(0.24 0.02 60);
-  --card: oklch(0.995 0.006 85);
-  --card-foreground: oklch(0.24 0.02 60);
-  --popover: oklch(0.995 0.006 85);
-  --popover-foreground: oklch(0.24 0.02 60);
-  --primary: oklch(0.58 0.19 35);
-  --primary-foreground: oklch(0.99 0.006 85);
-  --secondary: oklch(0.93 0.02 85);
-  --secondary-foreground: oklch(0.32 0.03 50);
-  --muted: oklch(0.93 0.015 85);
-  --muted-foreground: oklch(0.48 0.02 60);
-  --accent: oklch(0.91 0.05 165);
-  --accent-foreground: oklch(0.32 0.06 165);
-  --trust: oklch(0.45 0.09 165);
-  --trust-foreground: oklch(0.99 0.006 85);
-  --destructive: oklch(0.55 0.2 25);
-  --border: oklch(0.88 0.02 80);
-  --input: oklch(0.88 0.02 80);
-  --ring: oklch(0.65 0.15 35);
-  --chart-1: oklch(0.58 0.19 35);
-  --chart-2: oklch(0.45 0.09 165);
-  --chart-3: oklch(0.6 0.12 85);
-  --chart-4: oklch(0.5 0.1 264);
-  --chart-5: oklch(0.4 0.02 60);
-  --radius: 0.75rem;
-  /* Admin sidebar is "receipt ink": dark warm charcoal in both themes,
-     so the back office reads as the stockroom of the same shop. */
-  --sidebar: oklch(0.22 0.018 55);
-  --sidebar-foreground: oklch(0.93 0.015 85);
-  --sidebar-primary: oklch(0.68 0.19 35);
-  --sidebar-primary-foreground: oklch(0.99 0.006 85);
-  --sidebar-accent: oklch(0.29 0.02 55);
-  --sidebar-accent-foreground: oklch(0.97 0.015 85);
+  --background: oklch(0.985 0.008 240);
+  --foreground: oklch(0.28 0.08 265);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.28 0.08 265);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.28 0.08 265);
+  --primary: oklch(0.38 0.13 265);
+  --primary-foreground: oklch(0.99 0.005 240);
+  --brand: oklch(0.87 0.17 92);
+  --brand-foreground: oklch(0.3 0.09 265);
+  --secondary: oklch(0.94 0.03 240);
+  --secondary-foreground: oklch(0.32 0.09 265);
+  --muted: oklch(0.94 0.02 240);
+  --muted-foreground: oklch(0.5 0.04 260);
+  --accent: oklch(0.93 0.06 92);
+  --accent-foreground: oklch(0.32 0.09 265);
+  --sale: oklch(0.6 0.22 15);
+  --sale-foreground: oklch(0.99 0.005 240);
+  --trust: oklch(0.5 0.1 230);
+  --trust-foreground: oklch(0.99 0.005 240);
+  --destructive: oklch(0.58 0.22 25);
+  --border: oklch(0.9 0.02 250);
+  --input: oklch(0.9 0.02 250);
+  --ring: oklch(0.75 0.15 92);
+  --chart-1: oklch(0.38 0.13 265);
+  --chart-2: oklch(0.87 0.17 92);
+  --chart-3: oklch(0.6 0.22 15);
+  --chart-4: oklch(0.5 0.1 230);
+  --chart-5: oklch(0.5 0.04 260);
+  --radius: 1rem;
+  --sidebar: oklch(0.25 0.06 265);
+  --sidebar-foreground: oklch(0.95 0.01 240);
+  --sidebar-primary: oklch(0.87 0.17 92);
+  --sidebar-primary-foreground: oklch(0.3 0.09 265);
+  --sidebar-accent: oklch(0.31 0.07 265);
+  --sidebar-accent-foreground: oklch(0.97 0.008 240);
   --sidebar-border: oklch(1 0 0 / 12%);
-  --sidebar-ring: oklch(0.68 0.19 35);
+  --sidebar-ring: oklch(0.87 0.17 92);
 }
 
 .dark {
-  --background: oklch(0.19 0.015 55);
-  --foreground: oklch(0.95 0.015 85);
-  --card: oklch(0.24 0.018 55);
-  --card-foreground: oklch(0.95 0.015 85);
-  --popover: oklch(0.24 0.018 55);
-  --popover-foreground: oklch(0.95 0.015 85);
-  --primary: oklch(0.68 0.19 35);
-  --primary-foreground: oklch(0.19 0.015 55);
-  --secondary: oklch(0.29 0.018 55);
-  --secondary-foreground: oklch(0.95 0.015 85);
-  --muted: oklch(0.29 0.018 55);
-  --muted-foreground: oklch(0.72 0.02 80);
-  --accent: oklch(0.32 0.05 165);
-  --accent-foreground: oklch(0.92 0.03 165);
-  --trust: oklch(0.62 0.11 165);
-  --trust-foreground: oklch(0.16 0.02 165);
+  --background: oklch(0.2 0.045 265);
+  --foreground: oklch(0.95 0.01 240);
+  --card: oklch(0.25 0.05 265);
+  --card-foreground: oklch(0.95 0.01 240);
+  --popover: oklch(0.25 0.05 265);
+  --popover-foreground: oklch(0.95 0.01 240);
+  --primary: oklch(0.87 0.17 92);
+  --primary-foreground: oklch(0.25 0.06 265);
+  --brand: oklch(0.87 0.17 92);
+  --brand-foreground: oklch(0.25 0.06 265);
+  --secondary: oklch(0.3 0.05 265);
+  --secondary-foreground: oklch(0.95 0.01 240);
+  --muted: oklch(0.3 0.04 265);
+  --muted-foreground: oklch(0.72 0.03 250);
+  --accent: oklch(0.34 0.06 265);
+  --accent-foreground: oklch(0.95 0.01 240);
+  --sale: oklch(0.68 0.21 15);
+  --sale-foreground: oklch(0.99 0.005 240);
+  --trust: oklch(0.65 0.1 230);
+  --trust-foreground: oklch(0.2 0.045 265);
   --destructive: oklch(0.66 0.2 25);
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.68 0.19 35);
-  --chart-1: oklch(0.68 0.19 35);
-  --chart-2: oklch(0.62 0.11 165);
-  --chart-3: oklch(0.7 0.1 85);
+  --ring: oklch(0.87 0.17 92);
+  --chart-1: oklch(0.87 0.17 92);
+  --chart-2: oklch(0.65 0.1 230);
+  --chart-3: oklch(0.68 0.21 15);
   --chart-4: oklch(0.6 0.1 264);
-  --chart-5: oklch(0.75 0.02 80);
-  --sidebar: oklch(0.155 0.015 55);
-  --sidebar-foreground: oklch(0.95 0.015 85);
-  --sidebar-primary: oklch(0.68 0.19 35);
-  --sidebar-primary-foreground: oklch(0.99 0.006 85);
-  --sidebar-accent: oklch(0.24 0.018 55);
-  --sidebar-accent-foreground: oklch(0.95 0.015 85);
+  --chart-5: oklch(0.72 0.03 250);
+  --sidebar: oklch(0.165 0.04 265);
+  --sidebar-foreground: oklch(0.95 0.01 240);
+  --sidebar-primary: oklch(0.87 0.17 92);
+  --sidebar-primary-foreground: oklch(0.25 0.06 265);
+  --sidebar-accent: oklch(0.24 0.05 265);
+  --sidebar-accent-foreground: oklch(0.95 0.01 240);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.68 0.19 35);
+  --sidebar-ring: oklch(0.87 0.17 92);
 }
 
 @layer base {
