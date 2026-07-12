@@ -11,34 +11,41 @@ export default function ProductInfo({ product, categoryName }) {
     <div className="flex flex-col gap-4">
       <MarketplaceBadge marketplace={product.marketplace} />
 
-      <h1 className="text-2xl font-bold">{product.title}</h1>
+      <h1 className="font-display text-2xl font-bold sm:text-3xl">{product.title}</h1>
 
       <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
         {product.brand ? <span>{product.brand}</span> : null}
         {categoryName ? <span>{categoryName}</span> : null}
         {product.rating ? (
           <span className="flex items-center gap-1">
-            <Star className="size-4 fill-trust text-trust" />
+            <Star className="size-4 fill-brand text-brand" />
             {product.rating}
           </span>
         ) : null}
         {product.sold ? <span>{product.sold} terjual</span> : null}
       </div>
 
-      <div className="flex flex-col gap-2">
-        <div className="flex items-baseline gap-3">
-          <p className="font-price text-3xl font-bold text-foreground">{formatPrice(product.price)}</p>
+      <div className="flex flex-col gap-2 rounded-2xl bg-secondary/60 p-4">
+        <div className="flex flex-wrap items-baseline gap-3">
+          <p className={hasDiscount ? "text-3xl font-extrabold text-sale" : "text-3xl font-extrabold text-foreground"}>
+            {formatPrice(product.price)}
+          </p>
           {hasDiscount ? (
-            <p className="font-price text-lg text-muted-foreground line-through">
-              {formatPrice(product.originalPrice)}
-            </p>
+            <>
+              <p className="text-lg text-muted-foreground line-through">
+                {formatPrice(product.originalPrice)}
+              </p>
+              <span className="rounded-full bg-sale px-2 py-1 text-xs font-extrabold leading-none text-sale-foreground">
+                -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+              </span>
+            </>
           ) : null}
         </div>
 
         {hasDiscount ? (
-          <span className="inline-flex w-fit items-center gap-1.5 rounded-md border-2 border-dashed border-primary/40 bg-primary/10 px-2.5 py-1 text-sm font-semibold text-primary">
-            Hemat <span className="font-price">{formatPrice(savings)}</span> dari harga normal
-          </span>
+          <p className="text-sm font-semibold text-foreground">
+            Hemat {formatPrice(savings)} dari harga normal
+          </p>
         ) : null}
       </div>
 
