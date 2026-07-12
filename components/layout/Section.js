@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 import Container from "@/components/layout/Container";
 
 export default function Section({ id, title, subtitle, viewAllHref, children, className }) {
   return (
-    <section id={id} className={className}>
+    <section id={id} className={cn("scroll-mt-28 lg:scroll-mt-40", className)}>
       <Container className="flex flex-col gap-4 py-10">
         {title ? (
           <div className="flex items-end justify-between gap-4">

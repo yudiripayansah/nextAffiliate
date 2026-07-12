@@ -20,7 +20,7 @@ export default function FeaturedCollections({ collections }) {
               src={collection.image}
               alt={collection.name}
               fill
-              sizes="256px"
+              sizes="288px"
               className="object-cover"
             />
           ) : null}

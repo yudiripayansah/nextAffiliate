@@ -18,7 +18,7 @@ export default function TopBar() {
             </Link>
           ))}
         </nav>
-        <p className="font-semibold">✦ Belanja hemat dari Shopee, Tokopedia &amp; TikTok Shop</p>
+        <p className="font-semibold"><span aria-hidden="true">✦</span> Belanja hemat dari Shopee, Tokopedia &amp; TikTok Shop</p>
       </Container>
     </div>
   );
