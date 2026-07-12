@@ -13,19 +13,19 @@ export default function FeaturedCollections({ collections }) {
         <Link
           key={collection.id}
           href={`/collection/${collection.slug}`}
-          className="relative aspect-video w-64 shrink-0 snap-start overflow-hidden rounded-xl bg-muted"
+          className="relative aspect-video w-72 shrink-0 snap-start overflow-hidden rounded-3xl bg-muted"
         >
           {collection.image ? (
             <Image
               src={collection.image}
               alt={collection.name}
               fill
-              sizes="256px"
+              sizes="288px"
               className="object-cover"
             />
           ) : null}
           <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-3">
-            <p className="text-sm font-medium text-white">{collection.name}</p>
+            <p className="font-display text-base font-bold text-white">{collection.name}</p>
           </div>
         </Link>
       ))}

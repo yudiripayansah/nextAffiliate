@@ -5,6 +5,7 @@ import Container from "@/components/layout/Container";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import ProductGallery from "@/components/product/ProductGallery";
 import ProductInfo from "@/components/product/ProductInfo";
+import ProductBuyBar from "@/components/product/ProductBuyBar";
 import ProductSpecifications from "@/components/product/ProductSpecifications";
 import ProductFaq from "@/components/product/ProductFaq";
 import RelatedProducts from "@/components/product/RelatedProducts";
@@ -53,7 +54,7 @@ export default async function ProductDetailPage({ params }) {
   const faqSchema = buildFaqSchema(product.faq);
 
   return (
-    <Container className="flex flex-col gap-8 py-8">
+    <Container className="flex flex-col gap-8 py-8 pb-24 lg:pb-8">
       <JsonLd data={buildProductSchema(product)} />
       <JsonLd data={buildBreadcrumbSchema(breadcrumbItems)} />
       {faqSchema ? <JsonLd data={faqSchema} /> : null}
@@ -75,6 +76,8 @@ export default async function ProductDetailPage({ params }) {
       <ProductSpecifications specifications={product.specifications} />
       <ProductFaq faq={product.faq} />
       <RelatedProducts products={relatedProducts} />
+
+      <ProductBuyBar product={product} />
     </Container>
   );
 }

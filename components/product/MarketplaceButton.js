@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { MARKETPLACE_LABELS } from "@/constants/marketplace";
+import { cn } from "@/lib/utils";
+import { MARKETPLACE_LABELS, MARKETPLACE_BUTTON_CLASSES } from "@/constants/marketplace";
 
 export default function MarketplaceButton({ slug, marketplace }) {
   const marketplaceLabel = MARKETPLACE_LABELS[marketplace] ?? marketplace;
@@ -10,7 +11,10 @@ export default function MarketplaceButton({ slug, marketplace }) {
     <div className="flex flex-col gap-2">
       <Button
         size="lg"
-        className="w-full text-base font-semibold"
+        className={cn(
+          "w-full rounded-full text-base font-extrabold",
+          MARKETPLACE_BUTTON_CLASSES[marketplace]
+        )}
         render={<Link href={`/go/${slug}`} />}
         nativeButton={false}
       >

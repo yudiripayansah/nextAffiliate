@@ -56,7 +56,7 @@ export default async function CollectionPage({ params, searchParams }) {
 
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+      <div className="flex flex-col gap-4 rounded-3xl bg-brand/25 p-6 sm:flex-row sm:items-center dark:bg-card">
         {collection.image ? (
           <Image
             src={collection.image}
@@ -67,7 +67,7 @@ export default async function CollectionPage({ params, searchParams }) {
           />
         ) : null}
         <div>
-          <h1 className="text-2xl font-semibold">{collection.name}</h1>
+          <h1 className="font-display text-2xl font-bold">{collection.name}</h1>
           {collection.description ? (
             <p className="mt-1 text-sm text-muted-foreground">{collection.description}</p>
           ) : null}

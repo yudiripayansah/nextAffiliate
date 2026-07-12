@@ -31,7 +31,7 @@ export default function ProductSortSelect() {
 
   return (
     <Select value={searchParams.get("sort") ?? "created"} onValueChange={handleChange}>
-      <SelectTrigger className="w-44">
+      <SelectTrigger className="w-44 rounded-full">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

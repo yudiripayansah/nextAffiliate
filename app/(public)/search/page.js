@@ -36,7 +36,7 @@ export default async function SearchPage({ searchParams }) {
         <EmptyState message={`Produk tidak ditemukan untuk "${keyword}".`} />
         {featuredProducts.length ? (
           <div className="flex flex-col gap-4">
-            <h2 className="text-lg font-semibold">Coba lihat produk populer ini</h2>
+            <h2 className="font-display text-xl font-bold">Coba lihat produk populer ini</h2>
             <ProductGrid products={featuredProducts} />
           </div>
         ) : null}
@@ -47,7 +47,7 @@ export default async function SearchPage({ searchParams }) {
   return (
     <Container className="flex flex-col gap-4 py-10">
       <div>
-        <h1 className="text-lg font-semibold">Hasil pencarian &quot;{keyword}&quot;</h1>
+        <h1 className="font-display text-xl font-bold">Hasil pencarian &quot;{keyword}&quot;</h1>
         <p className="text-sm text-muted-foreground">{products.length} produk ditemukan</p>
       </div>
       <ProductGrid products={products} />

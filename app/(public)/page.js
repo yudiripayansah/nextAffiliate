@@ -2,7 +2,8 @@ import { getSettings } from "@/services/settings/settings.service";
 import { getCategoriesWithProductCount } from "@/services/category/category.service";
 import { getCollections } from "@/services/collection/collection.service";
 import { getProducts, getProductStats } from "@/services/product/product.service";
-import HeroSection from "@/components/home/HeroSection";
+import HeroBanner from "@/components/home/HeroBanner";
+import UspStrip from "@/components/home/UspStrip";
 import FeaturedCategories from "@/components/home/FeaturedCategories";
 import FeaturedCollections from "@/components/home/FeaturedCollections";
 import CtaBanner from "@/components/home/CtaBanner";
@@ -49,37 +50,30 @@ export default async function HomePage() {
       <JsonLd data={buildOrganizationSchema(settings)} />
       <JsonLd data={buildWebsiteSchema(settings)} />
 
-      <HeroSection
-        settings={settings}
-        stats={{ productCount: stats.published }}
-        featuredProducts={newest.products}
-      />
+      <HeroBanner settings={settings} stats={{ productCount: stats.published }} collections={featuredCollections.length ? featuredCollections : collections} />
+      <UspStrip />
 
       {categories.length ? (
-        <Section title="Kategori Pilihan" subtitle="Jelajahi produk berdasarkan kategori favoritmu">
+        <Section id="kategori" title="Kategori Pilihan" subtitle="Jelajahi produk berdasarkan kategori favoritmu">
           <FeaturedCategories categories={categories} />
         </Section>
       ) : null}
 
-      {featuredCollections.length || collections.length ? (
-        <Section
-          title="Koleksi Spesial"
-          subtitle="Kumpulan produk tematik yang lagi ramai dicari"
-          className="bg-muted/40"
-        >
+      <Section id="trending" title="Lagi Trending 🔥" subtitle="Produk paling banyak diklik minggu ini">
+        <ProductGrid products={trending.products} />
+      </Section>
+
+      {collections.length ? (
+        <Section id="koleksi" title="Koleksi Spesial" subtitle="Kumpulan produk tematik yang lagi ramai dicari" className="bg-secondary/40">
           <FeaturedCollections collections={featuredCollections.length ? featuredCollections : collections} />
         </Section>
       ) : null}
 
-      <Section title="Lagi Trending" subtitle="Produk paling banyak diklik minggu ini">
-        <ProductGrid products={trending.products} />
-      </Section>
-
-      <Section title="Baru Ditambahkan" subtitle="Produk terbaru yang baru masuk katalog" className="bg-muted/40">
+      <Section id="terbaru" title="Baru Ditambahkan" subtitle="Produk terbaru yang baru masuk katalog">
         <ProductGrid products={newest.products} />
       </Section>
 
-      <Section title="Paling Laris" subtitle="Favorit banyak pembeli di marketplace">
+      <Section id="laris" title="Paling Laris" subtitle="Favorit banyak pembeli di marketplace" className="bg-secondary/40">
         <ProductGrid products={popular.products} />
       </Section>
 
