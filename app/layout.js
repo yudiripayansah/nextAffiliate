@@ -15,7 +15,7 @@ const baloo = Baloo_2({
   display: "swap",
 });
 
-const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "Affiliate CMS";
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "Ayyasilla Shop";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const metadata = {

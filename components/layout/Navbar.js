@@ -16,7 +16,7 @@ export default async function Navbar() {
     getCollections(true),
     getSettings(),
   ]);
-  const siteName = settings.siteName || "Affiliate CMS";
+  const siteName = settings.siteName || "Ayyasilla Shop";
 
   return (
     <header className="sticky top-0 z-40 shadow-sm">

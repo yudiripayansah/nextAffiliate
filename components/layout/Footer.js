@@ -37,7 +37,7 @@ export default async function Footer() {
 
   const topCategories = categories.slice(0, 6);
   const topCollections = collections.slice(0, 6);
-  const siteName = settings.siteName || "Affiliate CMS";
+  const siteName = settings.siteName || "Ayyasilla Shop";
   const copyright =
     settings.footerCopyright || `© ${new Date().getFullYear()} ${siteName}. Seluruh hak dilindungi.`;
 
