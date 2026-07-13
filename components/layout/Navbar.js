@@ -29,7 +29,7 @@ export default async function Navbar() {
           <div className="flex min-w-0 items-center gap-1">
             <MobileNav categories={categories} collections={collections} siteName={siteName} />
             <Link href="/">
-              <Logo siteName={siteName} className="truncate text-lg lg:text-2xl" />
+              <Logo siteName={siteName} logoUrl={settings.logo} className="truncate text-lg lg:text-2xl" />
             </Link>
           </div>
 

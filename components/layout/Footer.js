@@ -46,7 +46,7 @@ export default async function Footer() {
     <footer className="bg-primary text-primary-foreground dark:bg-card dark:text-card-foreground">
       <Container className="grid grid-cols-2 gap-8 py-12 md:grid-cols-5">
         <div className="col-span-2 flex flex-col gap-3">
-          <Logo siteName={siteName} className="text-xl" markClassName="text-brand" />
+          <Logo siteName={siteName} logoUrl={settings.logo} className="text-xl" markClassName="text-brand" />
           <p className="max-w-sm text-xs leading-relaxed opacity-75">
             Kami bisa mendapat komisi dari pembelian lewat tautan di situs ini — tanpa biaya tambahan
             untukmu. Harga &amp; transaksi tetap sepenuhnya ditangani oleh marketplace terkait.
