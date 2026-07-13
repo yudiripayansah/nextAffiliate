@@ -9,6 +9,7 @@ import NavDropdown from "@/components/layout/NavDropdown";
 import MobileNav from "@/components/layout/MobileNav";
 import SearchBox from "@/components/search/SearchBox";
 import ThemeToggle from "@/components/layout/ThemeToggle";
+import PwaInstallButton from "@/components/layout/PwaInstallButton";
 
 export default async function Navbar() {
   const [categories, collections, settings] = await Promise.all([
@@ -37,7 +38,8 @@ export default async function Navbar() {
 
           <SearchBox className="mx-auto hidden w-full max-w-2xl flex-1 lg:block" />
 
-          <div className="ml-auto flex shrink-0 items-center lg:ml-0">
+          <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-0">
+            <PwaInstallButton />
             <ThemeToggle />
           </div>
         </Container>
