@@ -3,6 +3,7 @@ import { getCategories } from "@/services/category/category.service";
 import { getCollections } from "@/services/collection/collection.service";
 import { getSettings } from "@/services/settings/settings.service";
 import Container from "@/components/layout/Container";
+import Logo from "@/components/layout/Logo";
 import { MARKETPLACES } from "@/constants/marketplace";
 
 const INFO_LINKS = [
@@ -45,10 +46,7 @@ export default async function Footer() {
     <footer className="bg-primary text-primary-foreground dark:bg-card dark:text-card-foreground">
       <Container className="grid grid-cols-2 gap-8 py-12 md:grid-cols-5">
         <div className="col-span-2 flex flex-col gap-3">
-          <p className="font-display text-xl font-bold">
-            <span className="text-brand" aria-hidden="true">✦ </span>
-            {siteName}
-          </p>
+          <Logo siteName={siteName} className="text-xl" markClassName="text-brand" />
           <p className="max-w-sm text-xs leading-relaxed opacity-75">
             Kami bisa mendapat komisi dari pembelian lewat tautan di situs ini — tanpa biaya tambahan
             untukmu. Harga &amp; transaksi tetap sepenuhnya ditangani oleh marketplace terkait.
