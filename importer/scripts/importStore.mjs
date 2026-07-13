@@ -3,8 +3,13 @@
  * setiap gambar di-upload ke Cloudinary (folder affiliate-cms/media)
  * dan didaftarkan ke koleksi `files` supaya muncul di File Manager.
  *
+ * Setiap file JSON boleh punya field opsional `affiliateUrl` — kalau ada,
+ * dipakai sebagai link beli (mis. short link tk.tokopedia.com) sementara
+ * `url` tetap dipakai sebagai originalUrl (untuk dedup & tampilan harga asli).
+ *
  * Jalankan dari root repo (butuh CLOUDINARY_* dan FIREBASE_ADMIN_* di env):
- *   node --env-file=.env.local importer/scripts/importStore.mjs <dataDir> [--dry] [--limit N]
+ *   node --env-file=.env.local importer/scripts/importStore.mjs <dataDir> \
+ *     [--dry] [--limit N] [--category-id ID] [--publish]
  */
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
@@ -30,6 +35,12 @@ const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function getCategoryById(id) {
+  const doc = await getDb().collection("categories").doc(id).get();
+  if (!doc.exists) throw new Error(`Category ID tidak ditemukan: ${id}`);
+  return { id: doc.id, ...doc.data() };
+}
 
 async function ensureCategory() {
   const db = getDb();
@@ -116,7 +127,7 @@ function buildProduct(raw) {
     brand: "",
     rating: Number(String(raw.rating ?? "").replace(",", ".")) || 0,
     sold: soldMatch ? Number(soldMatch[0]) : 0,
-    affiliateUrl: raw.url,
+    affiliateUrl: raw.affiliateUrl || raw.url,
     originalUrl: raw.url,
     marketplace: "tokopedia",
     seoTitle: generateSeoTitle(raw.title),
@@ -129,11 +140,14 @@ async function run() {
   const args = process.argv.slice(2);
   const dataDir = args.find((arg) => !arg.startsWith("--"));
   const isDry = args.includes("--dry");
+  const shouldPublish = args.includes("--publish");
   const limitArg = args.indexOf("--limit");
   const limit = limitArg !== -1 ? Number(args[limitArg + 1]) : Infinity;
+  const categoryIdArg = args.indexOf("--category-id");
+  const categoryId = categoryIdArg !== -1 ? args[categoryIdArg + 1] : null;
 
   if (!dataDir) {
-    console.error("Usage: node importStore.mjs <dataDir> [--dry] [--limit N]");
+    console.error("Usage: node importStore.mjs <dataDir> [--dry] [--limit N] [--category-id ID] [--publish]");
     process.exit(1);
   }
 
@@ -145,8 +159,9 @@ async function run() {
 
   console.log(`${items.length} produk akan diproses${isDry ? " (dry run — tidak menyimpan)" : ""}.\n`);
 
-  const category = isDry ? null : await ensureCategory();
+  const category = isDry ? null : categoryId ? await getCategoryById(categoryId) : await ensureCategory();
   if (category) console.log(`Kategori: ${category.name} (${category.id})\n`);
+  if (shouldPublish) console.log("Status: published + featured\n");
 
   const summary = { success: 0, skipped: 0, failed: 0 };
 
@@ -180,7 +195,17 @@ async function run() {
         categoryId: category.id,
       });
 
-      console.log(`${label} OK  Rp ${product.price.toLocaleString("id-ID")}  ${rehostedImages.length} gambar  ${product.title.slice(0, 60)}  (${productId})`);
+      if (shouldPublish) {
+        await getDb().collection("products").doc(productId).update({
+          status: "published",
+          featured: true,
+          publishedAt: FieldValue.serverTimestamp(),
+          updatedAt: FieldValue.serverTimestamp(),
+        });
+      }
+
+      const statusLabel = shouldPublish ? "published+featured" : "draft";
+      console.log(`${label} OK  Rp ${product.price.toLocaleString("id-ID")}  ${rehostedImages.length} gambar  [${statusLabel}]  ${product.title.slice(0, 60)}  (${productId})`);
       summary.success += 1;
     } catch (error) {
       console.error(`${label} GAGAL: ${raw.url ?? "?"}\n      ${error.message}`);
