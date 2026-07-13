@@ -14,7 +14,7 @@ import { buildOrganizationSchema, buildWebsiteSchema } from "@/utils/jsonLd";
 
 export async function generateMetadata() {
   const settings = await getSettings();
-  const title = settings.seoTitle || settings.siteName || "Affiliate CMS";
+  const title = settings.seoTitle || settings.siteName || "Ayyasilla Shop";
   const description =
     settings.seoDescription ||
     settings.siteDescription ||

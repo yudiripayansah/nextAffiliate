@@ -9,6 +9,8 @@ import NavDropdown from "@/components/layout/NavDropdown";
 import MobileNav from "@/components/layout/MobileNav";
 import SearchBox from "@/components/search/SearchBox";
 import ThemeToggle from "@/components/layout/ThemeToggle";
+import PwaInstallButton from "@/components/layout/PwaInstallButton";
+import Logo from "@/components/layout/Logo";
 
 export default async function Navbar() {
   const [categories, collections, settings] = await Promise.all([
@@ -16,7 +18,7 @@ export default async function Navbar() {
     getCollections(true),
     getSettings(),
   ]);
-  const siteName = settings.siteName || "Affiliate CMS";
+  const siteName = settings.siteName || "Ayyasilla Shop";
 
   return (
     <header className="sticky top-0 z-40 shadow-sm">
@@ -26,18 +28,15 @@ export default async function Navbar() {
         <Container className="flex h-14 items-center gap-3 lg:h-[72px] lg:gap-8">
           <div className="flex min-w-0 items-center gap-1">
             <MobileNav categories={categories} collections={collections} siteName={siteName} />
-            <Link
-              href="/"
-              className="flex items-center gap-1 truncate font-display text-lg font-bold lg:text-2xl"
-            >
-              <span aria-hidden="true">✦</span>
-              {siteName}
+            <Link href="/">
+              <Logo siteName={siteName} className="truncate text-lg lg:text-2xl" />
             </Link>
           </div>
 
           <SearchBox className="mx-auto hidden w-full max-w-2xl flex-1 lg:block" />
 
-          <div className="ml-auto flex shrink-0 items-center lg:ml-0">
+          <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-0">
+            <PwaInstallButton />
             <ThemeToggle />
           </div>
         </Container>

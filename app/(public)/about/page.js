@@ -12,7 +12,7 @@ export async function generateMetadata() {
 
 export default async function AboutPage() {
   const settings = await getSettings();
-  const siteName = settings.siteName || "Affiliate CMS";
+  const siteName = settings.siteName || "Ayyasilla Shop";
 
   return (
     <Container className="flex flex-col gap-4 py-10">

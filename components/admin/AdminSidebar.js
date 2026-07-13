@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Tag, ExternalLink } from "lucide-react";
 import AdminNav from "@/components/admin/AdminNav";
 
-const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "Affiliate CMS";
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "Ayyasilla Shop";
 
 export default function AdminSidebar() {
   return (
