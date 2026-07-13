@@ -14,7 +14,12 @@ export const getSettings = cache(async function getSettings() {
     return { ...DEFAULT_SETTINGS };
   }
 
-  return { ...DEFAULT_SETTINGS, ...snapshot.data() };
+  const data = snapshot.data();
+  return {
+    ...DEFAULT_SETTINGS,
+    ...data,
+    updatedAt: data.updatedAt?.toDate?.().toISOString() ?? null,
+  };
 });
 
 export async function updateSettings(data) {
