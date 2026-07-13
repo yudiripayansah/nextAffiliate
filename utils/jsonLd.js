@@ -4,7 +4,7 @@ export function buildOrganizationSchema(settings) {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: settings.siteName || "Affiliate CMS",
+    name: settings.siteName || "Ayyasilla Shop",
     url: SITE_URL,
     logo: settings.logo || undefined,
   };
@@ -14,7 +14,7 @@ export function buildWebsiteSchema(settings) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: settings.siteName || "Affiliate CMS",
+    name: settings.siteName || "Ayyasilla Shop",
     url: SITE_URL,
     potentialAction: {
       "@type": "SearchAction",
