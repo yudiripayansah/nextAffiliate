@@ -92,6 +92,10 @@
       { "fieldPath": "clickCount", "order": "DESCENDING" }
     ]},
     { "collectionGroup": "products", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "collectionIds", "arrayConfig": "CONTAINS" },
+      { "fieldPath": "clickCount", "order": "ASCENDING" }
+    ]},
+    { "collectionGroup": "products", "queryScope": "COLLECTION", "fields": [
       { "fieldPath": "searchKeywords", "arrayConfig": "CONTAINS" },
       { "fieldPath": "updatedAt", "order": "DESCENDING" }
     ]},
